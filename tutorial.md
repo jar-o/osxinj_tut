@@ -21,6 +21,10 @@ the parts together. That's what this tries to do.
 
 ## The code
 
+You can get the code from Github:
+
+<https://github.com/arbinger/osxinj_tut>
+
 There are four source directories in this project, each a separate compilable
 unit, laid out pretty much the same as `osxinj` (except that we've moved them
 under a `src/` folder for compiling reasons:
