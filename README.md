@@ -7,9 +7,9 @@ This project demonstrates and documents how to use `mach_inject` and
 # Compiling
 
 This project requires **XCode** (and the command-line build tools, if you
-prefer `make` like I do) and **CMake**. I'm not a fan of using XCode (too much
-noise) but I realize other people might be. So I chose CMake so I could have it
-both ways.
+prefer `make` like I do) and **CMake**. I'm not a particular fan of using XCode
+(too much noise, IMO) but I realize other people are. I went with CMake so I
+could have it both ways.
 
 Here's how I build:
 
@@ -20,4 +20,4 @@ I haven't done it, but if you want an XCode project, you should be able to do
 
     cmake -G "XCode"
 
-for that.
+and be back in your comfort zone.
