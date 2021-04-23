@@ -51,6 +51,7 @@ void Injector::inject(pid_t pid, const char* lib)
         return;
     }
     mach_error_t err = mach_inject((mach_inject_entry)bootstrapfn, lib, strlen(lib) + 1, pid, 0);
+    (void)err;
 }
 
 pid_t Injector::getProcessByName(const char *name)
@@ -67,10 +68,10 @@ pid_t Injector::getProcessByName(const char *name)
         char curName[PROC_PIDPATHINFO_MAXSIZE];
         memset(curPath, 0, sizeof curPath);
         proc_pidpath(pids[i], curPath, sizeof curPath);
-        int len = strlen(curPath);
+        size_t len = strlen(curPath);
         if (len)
         {
-            int pos = len;
+            size_t pos = len;
             while (pos && curPath[pos] != '/') --pos;
             strcpy(curName, curPath + pos + 1);
             if (!strcmp(curName, name))
