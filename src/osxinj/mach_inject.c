@@ -16,6 +16,7 @@
 #include <mach-o/fat.h> // for fat structure decoding
 #include <mach-o/arch.h> // to know which is local arch
 #include <fcntl.h> // for open/close
+#include <unistd.h> // for open/close
 // for mmap()
 #include <sys/types.h>
 #include <sys/mman.h>
@@ -103,7 +104,7 @@ mach_inject(
 	if( !err ) {
 		ASSERT_CAST( pointer_t, image );
 #if defined (__ppc__) || defined (__ppc64__) || defined(__x86_64__)
-		err = vm_write( remoteTask, remoteCode, (pointer_t) image, imageSize );
+		err = vm_write( remoteTask, remoteCode, (pointer_t) image, (unsigned) imageSize );
 #elif defined (__i386__)
 		// on x86, jump table use relative jump instructions (jmp), which means
 		// the offset needs to be corrected. We thus copy the image and fix the offset by hand.
@@ -122,7 +123,7 @@ mach_inject(
 		if( !err ) {
 			ASSERT_CAST( pointer_t, paramBlock );
 			err = vm_write( remoteTask, remoteParamBlock,
-                           (pointer_t) paramBlock, paramSize );
+                           (pointer_t) paramBlock, (unsigned) paramSize );
 			printf("wrote param with size %d\n", (int)paramSize);
 		}
 	}
@@ -263,7 +264,8 @@ machImageForPointer(
 		*jumpTableSize = 0;
 	}
 
-	unsigned long imageIndex, imageCount = _dyld_image_count();
+	unsigned int imageIndex;
+	unsigned int imageCount = _dyld_image_count();
 	for( imageIndex = 0; imageIndex < imageCount; imageIndex++ ) {
 #if defined(__x86_64__)
 		const struct mach_header_64 *header = (const struct mach_header_64 *)_dyld_get_image_header( imageIndex ); // why no function that returns mach_header_64
